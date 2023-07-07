@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968be6db647b6457db558c3907448bce, type: 3}
+  m_Name: Wave2Config
+  m_EditorClassIdentifier: 
+  phases:
+  - enemy: {fileID: 8079784269744899160, guid: cf08bc73dd6d145ad99a07536ecd1a32, type: 3}
+    count: 3
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 3
+  - enemy: {fileID: 3960369105347125858, guid: 01b25a6fe448f4cf082c760ecf16947d, type: 3}
+    count: 2
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 1
+  - enemy: {fileID: 8079784269744899160, guid: b2fd608e55ffa40c19d7de202fef8d59, type: 3}
+    count: 1
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 0
+  - enemy: {fileID: 8079784269744899160, guid: bb6260723c12d48f787b9ebf37a28f2f, type: 3}
+    count: 2
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 0
+  - enemy: {fileID: 3960369105347125858, guid: 01b25a6fe448f4cf082c760ecf16947d, type: 3}
+    count: 4
+    onPhaseSpawningDone: 1
+    waitBeforeNextPhaseSeconds: 1
+  - enemy: {fileID: 8079784269744899160, guid: 7a2cf63f3cc444d2f9ef4b0111e081bd, type: 3}
+    count: 2
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 0
+  - enemy: {fileID: 8079784269744899160, guid: cf08bc73dd6d145ad99a07536ecd1a32, type: 3}
+    count: 3
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 2
+  - enemy: {fileID: 8079784269744899160, guid: cf08bc73dd6d145ad99a07536ecd1a32, type: 3}
+    count: 3
+    onPhaseSpawningDone: 0
+    waitBeforeNextPhaseSeconds: 2
+  - enemy: {fileID: 3960369105347125858, guid: 2647af3f5281945e9a9d1c6a71d39c92, type: 3}
+    count: 4
+    onPhaseSpawningDone: 1
+    waitBeforeNextPhaseSeconds: 0

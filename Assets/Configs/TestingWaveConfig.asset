@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 968be6db647b6457db558c3907448bce, type: 3}
+  m_Name: TestingWaveConfig
+  m_EditorClassIdentifier: 
+  phases:
+  - enemy: {fileID: 8079784269744899160, guid: 84dfcfdf553e64b219f79b822bd54927, type: 3}
+    count: 2
+    onPhaseSpawningDone: 1
+    waitBeforeNextPhaseSeconds: 1
