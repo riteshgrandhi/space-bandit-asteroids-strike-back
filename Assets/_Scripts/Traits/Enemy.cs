@@ -8,7 +8,8 @@ public abstract class Enemy : Damageable
     protected float force = 4;
     protected Vector2 direction = Vector2.down;
 
-    public float maxForce = 4;
+    public float minForce = 4;
+    public float maxForce = 10;
     public byte damage = 1;
 
     protected override void Awake()
@@ -24,7 +25,14 @@ public abstract class Enemy : Damageable
 
     public void SetForceAndDirection(float force, Vector2 direction)
     {
-        this.force = Mathf.Min(force, maxForce);
+        if (force > maxForce)
+        {
+            this.force = maxForce;
+        }
+        else if (force < minForce)
+        {
+            this.force = minForce;
+        }
         this.direction = direction;
     }
 }
