@@ -22,21 +22,22 @@ public class PlayerController : Damageable
     protected override void Update()
     {
         base.Update();
-        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * playerConfig.speed;
+        //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * playerConfig.speed;
 
 
         var xValidPosition = Mathf.Clamp(rb.position.x, -BOUNDS.x, BOUNDS.x);
         var yValidPosition = Mathf.Clamp(rb.position.y, -BOUNDS.y, BOUNDS.y);
         rb.position = new Vector2(xValidPosition, yValidPosition);
 
-        if (Input.GetButtonDown("Fire1"))
-        {
-            bulletParticleSystem.Play();
-        }
-        else if(Input.GetButtonUp("Fire1"))
-        { 
-            bulletParticleSystem.Stop();
-        }
+        //if (Input.GetButtonDown("Fire1"))
+        //{
+        //    bulletParticleSystem.Play();
+        //}
+        //else if(Input.GetButtonUp("Fire1"))
+        //{ 
+        //    bulletParticleSystem.Stop();
+        //}
+        bulletParticleSystem.Play();
     }
 
     public override void ApplyDamage(byte value = 1, bool kia = true)
@@ -49,7 +50,7 @@ public class PlayerController : Damageable
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy e))
+        if (collision.gameObject.TryGetComponent(out Enemy e))
         {
             ApplyDamage();
             e.ApplyDamage(e.health);
@@ -58,10 +59,10 @@ public class PlayerController : Damageable
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        bool isSuccess = other.gameObject.TryGetComponent<Pickable>(out Pickable p);
+        bool isSuccess = other.gameObject.TryGetComponent(out Pickable p);
         if (isSuccess)
         {
-            GameManager.Instance.audioSource.PlayOneShot(GameManager.Instance.pickUpAudioClip);
+            GameManager.Instance?.audioSource?.PlayOneShot(GameManager.Instance?.pickUpAudioClip);
             Destroy(other.gameObject);
             activePickable = p.pickableType;
             switch (activePickable)

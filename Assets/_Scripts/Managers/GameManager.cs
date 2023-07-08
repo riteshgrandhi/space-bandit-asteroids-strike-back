@@ -12,13 +12,13 @@ public class GameManager : Singleton<GameManager>
     public float hyperSpeedMultiplier = 40;
     public float normalSpeedTrailLifetimeMultiplier = 0;
     public float hyperSpeedTrailLifetimeMultiplier = 0.04f;
-    public List<WaveConfig> waveConfigs;
+    public WaveConfig[] waveConfigs;
     public PlayerController playerTemplate;
     public WaveController templateWaveController;
     public TextMeshPro livesText;
     public TextMeshPro scoreText;
     public TextMeshPro gameStatusText;
-    public List<Pickable> availablePickables;
+    public Pickable[] availablePickables;
     public AudioClip hyperDriveAudioClip;
     public AudioClip explosionAudioClip;
     public AudioClip pickUpAudioClip;
@@ -146,7 +146,7 @@ public class GameManager : Singleton<GameManager>
 
         if ((score > 500 && lastPickUpTime == null) || (Time.time - lastPickUpTime > 20))
         {
-            Pickable chosen = availablePickables[Random.Range(0, availablePickables.Count)];
+            Pickable chosen = availablePickables[Random.Range(0, availablePickables.Length)];
             // Pickable chosen = availablePickables[1];
             Pickable instantiated = Instantiate(chosen, killLocation, Quaternion.identity);
             instantiated.SetSpeed(currentSpeed);

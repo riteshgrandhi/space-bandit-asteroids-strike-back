@@ -69,7 +69,7 @@ public class Damageable : MonoBehaviour
             isDead = true;
             if (kia)
             {
-                GameManager.Instance.OnKill(scoreIncrement, transform.position);
+                GameManager.Instance?.OnKill(scoreIncrement, transform.position);
                 Instantiate(explosion, transform.position, Quaternion.identity);
             }
             if (OnDeathHandler != null)
@@ -78,7 +78,7 @@ public class Damageable : MonoBehaviour
             };
             spriteRenderer.material = flashMaterial;
             Destroy(gameObject, kia ? 0.1f : 5f);
-            GameManager.Instance.audioSource.PlayOneShot(GameManager.Instance.explosionAudioClip);
+            GameManager.Instance?.audioSource?.PlayOneShot(GameManager.Instance?.explosionAudioClip);
         }
     }
 
