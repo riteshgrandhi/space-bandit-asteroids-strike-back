@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8079784269744899163}
   - component: {fileID: 8290001436496887229}
   - component: {fileID: 8079784269744899160}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Asteroid4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,12 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 9a2cac0b612e94dca98c9b3f7edcda43, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -118,6 +124,25 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 9a2cac0b612e94dca98c9b3f7edcda43, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -142,5 +167,6 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: 0d6fd92fee62f406fbf42de9bd065c07, type: 2}
   impactExplosion: {fileID: 8269470522277082639, guid: d9859bb8f00b840d4ae986761f196546, type: 3}
   isDead: 0
+  minForce: 4
+  maxForce: 10
   damage: 1
-  force: 12

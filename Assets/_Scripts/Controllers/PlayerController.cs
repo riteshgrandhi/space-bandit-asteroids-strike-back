@@ -9,14 +9,16 @@ public class PlayerController : Damageable
     private static Vector2 BOUNDS = new Vector2(7.5f, 7);
     private Rigidbody2D rb;
     private ParticleSystem bulletParticleSystem;
+    private ObstacleAvoidance obstacleAvoidance;
     private PickableType? activePickable;
-
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         bulletParticleSystem = GetComponentInChildren<ParticleSystem>();
+        //bulletParticleSystem.Play();
+        obstacleAvoidance = GetComponent<ObstacleAvoidance>();
     }
 
     protected override void Update()
@@ -24,10 +26,14 @@ public class PlayerController : Damageable
         base.Update();
         //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * playerConfig.speed;
 
+        if (obstacleAvoidance != null)
+        {
+            rb.velocity = obstacleAvoidance.targetVector * playerConfig.speed;
+        }
 
-        var xValidPosition = Mathf.Clamp(rb.position.x, -BOUNDS.x, BOUNDS.x);
-        var yValidPosition = Mathf.Clamp(rb.position.y, -BOUNDS.y, BOUNDS.y);
-        rb.position = new Vector2(xValidPosition, yValidPosition);
+        //var xValidPosition = Mathf.Clamp(rb.position.x, -BOUNDS.x, BOUNDS.x);
+        //var yValidPosition = Mathf.Clamp(rb.position.y, -BOUNDS.y, BOUNDS.y);
+        //rb.position = new Vector2(xValidPosition, yValidPosition);
 
         //if (Input.GetButtonDown("Fire1"))
         //{
@@ -37,7 +43,7 @@ public class PlayerController : Damageable
         //{ 
         //    bulletParticleSystem.Stop();
         //}
-        bulletParticleSystem.Play();
+        //bulletParticleSystem.Play();
     }
 
     public override void ApplyDamage(byte value = 1, bool kia = true)
