@@ -14,8 +14,6 @@ public class ObstacleAvoidance : MonoBehaviour
     public string[] pickupTags = new string[] { "Pickup" };
 
     Vector2[] weightDirections = new Vector2[NUM_RAYS];
-    //Vector2[] interestWeights = new Vector2[NUM_RAYS];
-    //Vector2[] dangerWeights = new Vector2[NUM_RAYS];
     Vector2[] decisionWeights = new Vector2[NUM_RAYS];
 
     public AnimationCurve pickupWeightCurve = AnimationCurve.Constant(0, 1, 5);
@@ -57,7 +55,7 @@ public class ObstacleAvoidance : MonoBehaviour
         for (int i = 0; i < NUM_RAYS; i++)
         {
             Debug.DrawRay(transform.position, enemyWeights[i], Color.red);
-            Debug.DrawRay(transform.position, wallWeights[i], Color.grey);
+            //Debug.DrawRay(transform.position, wallWeights[i], Color.grey);
             Debug.DrawRay(transform.position, pickupWeights[i], Color.blue);
             Debug.DrawRay(transform.position, decisionWeights[i], Color.green);
         }
@@ -90,7 +88,7 @@ public class ObstacleAvoidance : MonoBehaviour
             }
             if (enemyWeights[i].magnitude > 0f)
             {
-                newWeights[i] -= enemyWeights[i];
+                newWeights[i] = -enemyWeights[i];
             }
             if (pickupWeights[i].magnitude > 0f)
             {

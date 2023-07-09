@@ -16,7 +16,7 @@ public class LaunchController : MonoBehaviour
     {
         spriteRenderer.sprite = launchableEnemies[currentSelection].GetComponent<SpriteRenderer>().sprite;
 
-        placementNotAllowedLayerMask = LayerMask.GetMask("PlacementNotAllowed");
+        placementNotAllowedLayerMask = LayerMask.GetMask("PlacementNotAllowed", "Bounds");
     }
 
     // Update is called once per frame
