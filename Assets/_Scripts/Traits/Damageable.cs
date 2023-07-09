@@ -57,10 +57,10 @@ public class Damageable : MonoBehaviour
 
         Instantiate(impactExplosion, gameObject.transform.position + Vector3.left * gameObject.GetComponent<Collider2D>().bounds.extents.x, Quaternion.identity);
 
-        if(other.GetComponentInParent<PlayerController>() != null)
-        {
-            return;
-        }
+        //if(other.GetComponentInParent<PlayerController>() != null && TryGetComponent(out PlayerController _))
+        //{
+        //    return;
+        //}
 
         ApplyDamage(other.GetComponentInParent<Enemy>()?.damage ?? 1);
     }
