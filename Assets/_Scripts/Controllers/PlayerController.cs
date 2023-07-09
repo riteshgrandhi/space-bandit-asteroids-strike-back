@@ -28,7 +28,7 @@ public class PlayerController : Damageable
 
         if (obstacleAvoidance != null)
         {
-            rb.velocity = obstacleAvoidance.targetVector * playerConfig.speed;
+            rb.velocity = Vector2.Lerp(rb.velocity, obstacleAvoidance.targetVector * playerConfig.speed, Time.deltaTime);
         }
 
         //var xValidPosition = Mathf.Clamp(rb.position.x, -BOUNDS.x, BOUNDS.x);

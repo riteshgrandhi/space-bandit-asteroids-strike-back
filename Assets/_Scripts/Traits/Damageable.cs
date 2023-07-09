@@ -30,10 +30,19 @@ public class Damageable : MonoBehaviour
             return;
         }
 
-        if (Mathf.Abs(transform.position.x) > 10)
+        //if (Mathf.Abs(transform.position.x) > 10)
+        //{
+        //    ApplyDamage(health, false);
+        //}
+    }
+
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        if (otherCollider.CompareTag("Wall"))
         {
-            ApplyDamage(health, false);
+            ApplyDamage(health, true);
         }
+        
     }
 
     protected virtual void OnParticleCollision(GameObject other)
@@ -85,7 +94,7 @@ public class Damageable : MonoBehaviour
     private IEnumerator DoHitBlink()
     {
         spriteRenderer.material = flashMaterial;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         spriteRenderer.material = originalMaterial;
     }
 }

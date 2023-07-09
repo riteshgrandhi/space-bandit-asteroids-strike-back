@@ -5,7 +5,8 @@ public class LaunchController : MonoBehaviour
 {
     public Enemy[] launchableEnemies;
 
-    SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
+    public Transform aimArrow;
     LauncherState state = LauncherState.PLACING;
     int currentSelection = 0;
     Vector3 mousePosition;
@@ -13,12 +14,9 @@ public class LaunchController : MonoBehaviour
 
     void Awake()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
         spriteRenderer.sprite = launchableEnemies[currentSelection].GetComponent<SpriteRenderer>().sprite;
 
         placementNotAllowedLayerMask = LayerMask.GetMask("PlacementNotAllowed");
-
     }
 
     // Update is called once per frame
@@ -52,15 +50,16 @@ public class LaunchController : MonoBehaviour
             if (isPlacementAllowed)
             {
                 state = LauncherState.AIMING;
+                aimArrow.GetComponentInChildren<SpriteRenderer>().enabled = true;
                 return;
             }
             else
             {
-                raycastHit.collider.gameObject.GetComponent<BlinkController>().StartBlink(4);
+                raycastHit.collider.gameObject.GetComponent<BlinkController>()?.StartBlink(4);
             }
         }
 
-        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0) // forward
+        if (Input.GetAxisRaw("Mouse ScrollWheel") != 0)
         {
             int delta = Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
             currentSelection = (currentSelection + delta) % launchableEnemies.Length;
@@ -89,9 +88,12 @@ public class LaunchController : MonoBehaviour
 
     private void UpdateAim()
     {
-
         Vector3 sourcePos = spriteRenderer.transform.position;
         Vector2 aimVector = mousePosition - sourcePos;
+        aimArrow.position = sourcePos;
+        float angle = Mathf.Atan2(aimVector.y, aimVector.x) * Mathf.Rad2Deg;
+        aimArrow.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
         Debug.DrawLine(sourcePos, mousePosition, aimVector.magnitude <= 4 || aimVector.magnitude >= 10 ? Color.red : Color.green);
 
         if (Input.GetMouseButtonUp(0))
@@ -101,6 +103,7 @@ public class LaunchController : MonoBehaviour
             launchedEnemy.SetForceAndDirection(aimVector.magnitude, aimVector.normalized);
 
             state = LauncherState.PLACING;
+            aimArrow.GetComponentInChildren<SpriteRenderer>().enabled = false;
             return;
         }
     }

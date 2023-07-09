@@ -5,25 +5,25 @@ using UnityEngine;
 
 public class ObstacleAvoidance : MonoBehaviour
 {
-    private static int NUM_RAYS = 8;
-    public float interestViewConeRadius = 15;
-    public float dangerViewConeRadius = 6;
+    private static int NUM_RAYS = 12;
+    public float viewConeRadius = 15;
     public Vector2 targetVector { get; private set; }
 
-    private int interestLayers;
-    private int dangerLayers;
+    public string[] enemyTags = new string[] { "Enemy" };
+    public string[] wallTags = new string[] { "Wall" };
+    public string[] pickupTags = new string[] { "Pickup" };
 
-    Vector2[] interestWeights = new Vector2[NUM_RAYS];
-    Vector2[] dangerWeights = new Vector2[NUM_RAYS];
-    Vector2[] decisionWeights = new Vector2[NUM_RAYS];
     Vector2[] weightDirections = new Vector2[NUM_RAYS];
+    //Vector2[] interestWeights = new Vector2[NUM_RAYS];
+    //Vector2[] dangerWeights = new Vector2[NUM_RAYS];
+    Vector2[] decisionWeights = new Vector2[NUM_RAYS];
+
+    public AnimationCurve pickupWeightCurve = AnimationCurve.Constant(0, 1, 5);
+    public AnimationCurve enemyWeightCurve = AnimationCurve.Constant(0, 1, 5);
+    public AnimationCurve wallWeightCurve = AnimationCurve.Constant(0, 1, 5);
 
     void Awake()
     {
-        dangerLayers = LayerMask.GetMask("Enemy", "Wall");
-        interestLayers = LayerMask.GetMask("Pickup");
-
-
         for (int i = 0; i < NUM_RAYS; i++)
         {
             weightDirections[i] = Quaternion.AngleAxis(i / (float)NUM_RAYS * 360, Vector3.forward) * Vector2.up;
@@ -33,25 +33,33 @@ public class ObstacleAvoidance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dangerWeights = CalculateWeights(
-                Physics2D.OverlapCircleAll(transform.position, dangerViewConeRadius, dangerLayers).Select(x => x.ClosestPoint(transform.position)),
-                (currentWeight, index, point) => DangerWeightFunction(currentWeight, index, point)
+        Collider2D[] allColliders = Physics2D.OverlapCircleAll(transform.position, viewConeRadius);
+
+        Vector2[] enemyWeights = CalculateWeights(
+                allColliders.Where(c => enemyTags.Contains(c.tag)).Select(x => x.ClosestPoint(transform.position)),
+                (currentWeight, index, point) => WeightFunction(currentWeight, index, point, enemyWeightCurve)
             );
 
-        interestWeights = CalculateWeights(
-                Physics2D.OverlapCircleAll(transform.position, interestViewConeRadius, interestLayers).Select(x => x.ClosestPoint(transform.position)),
-                (currentWeight, index, point) => InterestWeightFunction(currentWeight, index, point)
+        Vector2[] wallWeights = CalculateWeights(
+                allColliders.Where(c => wallTags.Contains(c.tag)).Select(x => x.ClosestPoint(transform.position)),
+                (currentWeight, index, point) => WeightFunction(currentWeight, index, point, wallWeightCurve)
             );
 
-        decisionWeights = CalculateDecisionWeights();
+        Vector2[] pickupWeights = CalculateWeights(
+                allColliders.Where(c => pickupTags.Contains(c.tag)).Select(x => x.ClosestPoint(transform.position)),
+                (currentWeight, index, point) => WeightFunction(currentWeight, index, point, pickupWeightCurve)
+            );
+
+        decisionWeights = CalculateDecisionWeights(enemyWeights, wallWeights, pickupWeights);
 
         targetVector = CalculateTargetVector();
 
         for (int i = 0; i < NUM_RAYS; i++)
         {
-            Debug.DrawRay(transform.position, dangerWeights[i], Color.red);
-            Debug.DrawRay(transform.position, interestWeights[i], Color.green);
-            Debug.DrawRay(transform.position, decisionWeights[i], Color.blue);
+            Debug.DrawRay(transform.position, enemyWeights[i], Color.red);
+            Debug.DrawRay(transform.position, wallWeights[i], Color.grey);
+            Debug.DrawRay(transform.position, pickupWeights[i], Color.blue);
+            Debug.DrawRay(transform.position, decisionWeights[i], Color.green);
         }
 
         Debug.DrawRay(transform.position, targetVector, Color.cyan);
@@ -71,37 +79,41 @@ public class ObstacleAvoidance : MonoBehaviour
         return targetVector.normalized;
     }
 
-    private Vector2[] CalculateDecisionWeights()
+    private Vector2[] CalculateDecisionWeights(Vector2[] enemyWeights, Vector2[] wallWeights, Vector2[] pickupWeights)
     {
         Vector2[] newWeights = new Vector2[NUM_RAYS];
         for (int i = 0; i < NUM_RAYS; i++)
         {
-            if (dangerWeights[i].magnitude > 0.9f)
+            if (wallWeights[i].magnitude > 0f)
             {
-                newWeights[i] = -dangerWeights[i];
+                newWeights[i] = -wallWeights[i];
             }
-            else if (dangerWeights[i].magnitude > 0.4f)
+            if (enemyWeights[i].magnitude > 0f)
             {
-                newWeights[i] = Vector2.zero;
+                newWeights[i] -= enemyWeights[i];
             }
-            else
+            if (pickupWeights[i].magnitude > 0f)
             {
-                newWeights[i] = interestWeights[i] - dangerWeights[i];
+                if (pickupWeights[i].sqrMagnitude < enemyWeights[i].sqrMagnitude)
+                {
+                    newWeights[i] += pickupWeights[i] - enemyWeights[i];
+                } else
+                {
+                    newWeights[i] = Vector2.zero;
+                }
             }
         }
         return newWeights;
     }
 
-    private Vector2 DangerWeightFunction(Vector2 currentWeight, int index, Vector3 point)
+    private Vector2 WeightFunction(Vector2 currentWeight, int index, Vector3 point, AnimationCurve weightCurve)
     {
         Vector2 dirVector = point - this.transform.position;
-        return weightDirections[index] * Mathf.Max(currentWeight.magnitude, Vector2.Dot(weightDirections[index], (dirVector.normalized * dangerViewConeRadius / dirVector.magnitude)));
-    }
-
-    private Vector2 InterestWeightFunction(Vector2 currentWeight, int index, Vector3 point)
-    {
-        Vector2 dirVector = point - this.transform.position;
-        return weightDirections[index] * Mathf.Max(currentWeight.magnitude, Vector2.Dot(weightDirections[index], (dirVector.normalized * interestViewConeRadius / dirVector.magnitude)));
+        float distanceFactor = 1 - (dirVector.magnitude / viewConeRadius);
+        float weightMagnitude = Vector2.Dot(weightDirections[index], dirVector.normalized) * weightCurve.Evaluate(distanceFactor);
+        //Debug.Log(distanceFactor);
+        //Debug.Log(weightCurve.Evaluate(distanceFactor));
+        return weightDirections[index] * Mathf.Max(currentWeight.magnitude, weightMagnitude);
     }
 
     private Vector2[] CalculateWeights(IEnumerable<Vector2> points, Func<Vector2, int, Vector3, Vector2> weightFunction)
@@ -119,13 +131,12 @@ public class ObstacleAvoidance : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        DrawWireSphereForView(Color.red, dangerViewConeRadius);
-        DrawWireSphereForView(Color.green, interestViewConeRadius);
+        DrawWireSphereForView(Color.white, viewConeRadius);
     }
 
     private void DrawWireSphereForView(Color c, float viewConeRadius)
     {
-        c.a = 0.1f;
+        c.a = 0.3f;
         Gizmos.color = c;
         Gizmos.DrawWireSphere(transform.position, viewConeRadius);
     }
