@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 8079784269744899163}
   - component: {fileID: 8290001436496887229}
   - component: {fileID: 8079784269744899160}
+  - component: {fileID: -7022638019457624793}
   m_Layer: 11
-  m_Name: Asteroid5
+  m_Name: Asteroid6
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 028df372b7f64451a90ae705890cef53, type: 3}
+  m_Sprite: {fileID: -202556656, guid: 6ac05aa95707b4f4f8c3e83031b0c9d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -146,8 +147,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.1111112, y: 1.1111112}
+  m_Offset: {x: 0.03698492, y: 0.31660944}
+  m_Size: {x: 1.1763945, y: 1.8174678}
   m_Direction: 0
 --- !u!114 &8079784269744899160
 MonoBehaviour:
@@ -170,3 +171,24 @@ MonoBehaviour:
   minForce: 4
   maxForce: 10
   damage: 1
+--- !u!95 &-7022638019457624793
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079784269744899170}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fae095ad1f94edf43b30d1e49b1baaf7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
