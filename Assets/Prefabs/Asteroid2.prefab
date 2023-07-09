@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8079784269744899175}
   - component: {fileID: 8079784269744899163}
   - component: {fileID: 8079784269744899160}
+  - component: {fileID: 1445617140510419430}
   m_Layer: 11
   m_Name: Asteroid2
   m_TagString: Enemy
@@ -161,12 +162,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50277dfdd6fd744418d5598e6863e1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minForce: 4
+  maxForce: 10
+  damage: 1
+--- !u!114 &1445617140510419430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079784269744899170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104740780d6114227984176ca041de2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   scoreIncrement: 100
-  health: 2
+  health: 1
   explosion: {fileID: 8269470522277082639, guid: 86dac789cd6ce456083192911a1b3edc, type: 3}
   flashMaterial: {fileID: 2100000, guid: 0d6fd92fee62f406fbf42de9bd065c07, type: 2}
   impactExplosion: {fileID: 8269470522277082639, guid: d9859bb8f00b840d4ae986761f196546, type: 3}
   isDead: 0
-  minForce: 4
-  maxForce: 10
-  damage: 1

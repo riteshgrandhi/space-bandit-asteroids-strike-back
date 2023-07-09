@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3448272507193000070
 Transform:
   m_ObjectHideFlags: 0
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 2058377528634626389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 18, y: 18, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5333779267280138446}
@@ -242,14 +242,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2257269785411541036}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5333779267280138446}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!199 &8300933098780238268
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -1159,7 +1159,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4081,7 +4081,7 @@ ParticleSystem:
     radiusScale: 0.2
     collidesWith:
       serializedVersion: 2
-      m_Bits: 128
+      m_Bits: 10368
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -5060,6 +5060,7 @@ GameObject:
   - component: {fileID: -8531800041290051521}
   - component: {fileID: 5292273695834484367}
   - component: {fileID: 7070957333765518874}
+  - component: {fileID: 5954672638491540674}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -5176,12 +5177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f92b4771ff64d548186402f4c8e738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreIncrement: 0
-  health: 4
-  explosion: {fileID: 8269470522277082639, guid: 86dac789cd6ce456083192911a1b3edc, type: 3}
-  flashMaterial: {fileID: 2100000, guid: 0d6fd92fee62f406fbf42de9bd065c07, type: 2}
-  impactExplosion: {fileID: 8269470522277082639, guid: d9859bb8f00b840d4ae986761f196546, type: 3}
-  isDead: 0
   playerConfig: {fileID: 11400000, guid: 928cece21d14943569328c5d78cdd910, type: 2}
   shieldSprite: {fileID: 6343642364814646227}
 --- !u!95 &-8531800041290051521
@@ -5220,6 +5215,8 @@ MonoBehaviour:
   viewConeRadius: 15
   enemyTags:
   - Enemy
+  wallTags:
+  - Wall
   pickupTags:
   - Pickup
   pickupWeightCurve:
@@ -5347,3 +5344,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.48207682}
   serializedVersion: 2
   m_Radius: 0.7269003
+--- !u!114 &5954672638491540674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5333779267280138445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104740780d6114227984176ca041de2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreIncrement: 0
+  health: 40
+  explosion: {fileID: 8269470522277082639, guid: 86dac789cd6ce456083192911a1b3edc, type: 3}
+  flashMaterial: {fileID: 2100000, guid: 0d6fd92fee62f406fbf42de9bd065c07, type: 2}
+  impactExplosion: {fileID: 8269470522277082639, guid: d9859bb8f00b840d4ae986761f196546, type: 3}
+  isDead: 0
+  ignoreParticalCollisions: 0

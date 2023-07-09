@@ -9,7 +9,7 @@ public class ObstacleAvoidance : MonoBehaviour
     public float viewConeRadius = 15;
     public Vector2 targetVector { get; private set; }
 
-    public string[] enemyTags = new string[] { "Enemy" };
+    public string[] enemyTags = new string[] { "Enemy", "Boss" };
     public string[] wallTags = new string[] { "Wall" };
     public string[] pickupTags = new string[] { "Pickup" };
 

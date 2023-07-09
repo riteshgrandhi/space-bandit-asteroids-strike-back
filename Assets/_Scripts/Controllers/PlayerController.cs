@@ -1,29 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : Damageable
+[RequireComponent(typeof(Rigidbody2D), typeof(Damageable))]
+public class PlayerController : MonoBehaviour
 {
     public PlayerConfig playerConfig;
     public SpriteRenderer shieldSprite;
-    private static Vector2 BOUNDS = new Vector2(7.5f, 7);
     private Rigidbody2D rb;
     private ParticleSystem bulletParticleSystem;
     private ObstacleAvoidance obstacleAvoidance;
     private PickableType? activePickable;
 
-    protected override void Awake()
+    private Damageable damageable;
+
+    void Awake()
     {
-        base.Awake();
         rb = GetComponent<Rigidbody2D>();
+        damageable = GetComponent<Damageable>();
         bulletParticleSystem = GetComponentInChildren<ParticleSystem>();
-        //bulletParticleSystem.Play();
+        bulletParticleSystem.Play();
         obstacleAvoidance = GetComponent<ObstacleAvoidance>();
     }
 
-    protected override void Update()
+    void Update()
     {
-        base.Update();
         //rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * playerConfig.speed;
 
         if (obstacleAvoidance != null)
@@ -46,22 +46,22 @@ public class PlayerController : Damageable
         //bulletParticleSystem.Play();
     }
 
-    public override void ApplyDamage(byte value = 1, bool kia = true)
-    {
-        if (activePickable != PickableType.SHIELD)
-        {
-            base.ApplyDamage(value, kia);
-        }
-    }
+    //public override void ApplyDamage(byte value = 1, bool kia = true)
+    //{
+    //    if (activePickable != PickableType.SHIELD)
+    //    {
+    //        base.ApplyDamage(value, kia);
+    //    }
+    //}
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out Enemy e))
-        {
-            ApplyDamage();
-            e.ApplyDamage(e.health);
-        }
-    }
+    //void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.TryGetComponent(out Enemy e))
+    //    {
+    //        ApplyDamage();
+    //        e.ApplyDamage(e.health);
+    //    }
+    //}
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -78,7 +78,7 @@ public class PlayerController : Damageable
                     StartCoroutine(DeactivateShield());
                     break;
                 case PickableType.HEALTH:
-                    health++;
+                    damageable.health++;
                     break;
             }
         }

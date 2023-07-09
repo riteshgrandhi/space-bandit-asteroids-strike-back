@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
@@ -15,37 +13,42 @@ public class Damageable : MonoBehaviour
     private Material originalMaterial;
     public GameObject impactExplosion;
     public bool isDead = false;
-    public List<ParticleCollisionEvent> collisionEvents;
+    public bool ignoreParticalCollisions = false;
     protected virtual void Awake()
     {
-        collisionEvents = new List<ParticleCollisionEvent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalMaterial = spriteRenderer.material;
     }
 
     protected virtual void Update()
     {
-        if (isDead)
+    }
+
+    //private void OnTriggerEnter2D(Collider2D otherCollider)
+    //{
+    //    if (otherCollider.CompareTag("Wall"))
+    //    {
+    //        ApplyDamage(health, true);
+    //    }
+    //}
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        bool isThisObjEnemy = TryGetComponent(out Enemy _);
+        bool isOtherObjEnemy = collision.gameObject.TryGetComponent(out Enemy e);
+        if (isThisObjEnemy && isThisObjEnemy)
         {
             return;
         }
-
-        //if (Mathf.Abs(transform.position.x) > 10)
-        //{
-        //    ApplyDamage(health, false);
-        //}
-    }
-
-    private void OnTriggerEnter2D(Collider2D otherCollider)
-    {
-        if (otherCollider.CompareTag("Wall"))
+        else if (isOtherObjEnemy)
         {
-            ApplyDamage(health, true);
+            ApplyDamage();
+            Damageable eDamageable = e.GetComponent<Damageable>();
+            eDamageable.ApplyDamage(eDamageable.health);
         }
-        
     }
 
-    protected virtual void OnParticleCollision(GameObject other)
+    void OnParticleCollision(GameObject other)
     {
         if (isDead)
         {
@@ -54,10 +57,15 @@ public class Damageable : MonoBehaviour
 
         Instantiate(impactExplosion, gameObject.transform.position + Vector3.left * gameObject.GetComponent<Collider2D>().bounds.extents.x, Quaternion.identity);
 
+        if(other.GetComponentInParent<PlayerController>() != null)
+        {
+            return;
+        }
+
         ApplyDamage(other.GetComponentInParent<Enemy>()?.damage ?? 1);
     }
 
-    public virtual void ApplyDamage(byte value = 1, bool kia = true)
+    public void ApplyDamage(byte value = 1, bool kia = true)
     {
         if (isDead)
         {

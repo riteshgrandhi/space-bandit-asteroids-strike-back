@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +7,6 @@ public class GameManager : Singleton<GameManager>
 {
     public int score;
     public WaveConfig[] waveConfigs;
-    public PlayerController playerTemplate;
     public WaveController templateWaveController;
     public TextMeshPro livesText;
     public TextMeshPro scoreText;
@@ -22,25 +20,28 @@ public class GameManager : Singleton<GameManager>
     public float currentSpeed;
     [System.NonSerialized]
     public AudioSource audioSource;
-    private PlayerController spawnedPlayer;
+    public PlayerController spawnedPlayer;
+    private Damageable spawnedPlayerDamageable;
     private float? lastPickUpTime;
 
     void Start()
     {
-        spawnedPlayer = Instantiate(playerTemplate);
+        spawnedPlayerDamageable = spawnedPlayer.GetComponent<Damageable>();
     }
 
     void Update()
     {
-        if(spawnedPlayer == null || spawnedPlayer.isDead){
+        if (spawnedPlayer == null || spawnedPlayerDamageable.isDead)
+        {
             gameStatusText.text = "MISSION FAILED \nPress R to Restart";
-            
-            if(Input.GetKeyUp(KeyCode.R)){
+
+            if (Input.GetKeyUp(KeyCode.R))
+            {
                 SceneManager.LoadScene(0);
             }
         }
 
-        livesText.text = spawnedPlayer.health.ToString();
+        livesText.text = spawnedPlayerDamageable.health.ToString();
         scoreText.text = score.ToString();
     }
 

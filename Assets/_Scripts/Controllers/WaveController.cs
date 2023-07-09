@@ -23,9 +23,10 @@ public class WaveController : MonoBehaviour
                 yield return new WaitForSeconds(Random.Range(0, currentPhase.maxWaitBeforeEachSpawnSeconds));
                 // spawnedEnemy.SetSpeed(GameManager.Instance.currentSpeed);
 
-                spawnedEnemy.OnDeathHandler += OnSpawnedEnemyDeath;
-                currentPhaseEnemies.Add(spawnedEnemy);
-                allSpawnedEnemies.Add(spawnedEnemy);
+                Damageable spawnedEnemyDamageable = spawnedEnemy.GetComponent<Damageable>();
+                spawnedEnemyDamageable.OnDeathHandler += OnSpawnedEnemyDeath;
+                currentPhaseEnemies.Add(spawnedEnemyDamageable);
+                allSpawnedEnemies.Add(spawnedEnemyDamageable);
             }
 
             switch (currentPhase.onPhaseSpawningDone)

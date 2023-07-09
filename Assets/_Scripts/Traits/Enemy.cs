@@ -2,19 +2,18 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-public abstract class Enemy : Damageable
+public abstract class Enemy : MonoBehaviour
 {
     protected Rigidbody2D rb;
     protected float force = 4;
-    protected Vector2 direction = Vector2.down;
+    protected Vector2 direction = Vector2.zero;
 
     public float minForce = 4;
     public float maxForce = 10;
     public byte damage = 1;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
         rb = GetComponent<Rigidbody2D>();
     }
 
